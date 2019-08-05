@@ -1,6 +1,5 @@
-# news-react
-
-News search engine using News API
+# search-music
+Search engine for artists and lyrics.
 
 ## Built With
 
