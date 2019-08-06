@@ -1,5 +1,6 @@
-import React, { useContext } from 'react';
+import React, { Fragment, useContext } from 'react';
 import Spinner from '../layouts/Spinner';
+import TrackItem from './TrackItem';
 
 import TracksContext from '../../context/tracks/tracksContext';
 
@@ -11,9 +12,14 @@ const Tracks = () => {
   if (loading) return <Spinner />;
 
   return (
-    <div>
-      <h1>Tracks</h1>
-    </div>
+    <Fragment>
+      <h3 className='text-center mb-4'>{heading}</h3>
+      <div className='row'>
+        {track_list.map(item => (
+          <TrackItem key={item.track.track_id} track={item.track} />
+        ))}
+      </div>
+    </Fragment>
   );
 };
 
