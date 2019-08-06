@@ -1,4 +1,4 @@
-import { GET_TOP_TEN, SET_LOADING } from '../types';
+import { GET_TOP_TEN, SET_LOADING, GET_TRACK } from '../types';
 
 export default (state, action) => {
   switch (action.type) {
@@ -7,6 +7,11 @@ export default (state, action) => {
         ...state,
         track_list: action.payload,
         loading: false
+      };
+    case GET_TRACK:
+      return {
+        ...state,
+        track: action.payload
       };
     case SET_LOADING:
       return {
