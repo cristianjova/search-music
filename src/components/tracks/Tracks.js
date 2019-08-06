@@ -1,15 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import TracksContext from '../../context/tracks/tracksContext';
 
 const Tracks = () => {
   const tracksContext = useContext(TracksContext);
 
-  const { tracks_list, heading } = tracksContext;
-  console.log(tracks_list);
-
-  useEffect(() => {
-    // eslint-disable-next-line
-  }, []);
+  const { track_list, heading } = tracksContext;
 
   return (
     <div>
