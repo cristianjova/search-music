@@ -51,9 +51,22 @@ const TracksState = props => {
         process.env.REACT_APP_VAGALUME_KEY
       }&art=${artist}&mus=${track}&extra=alb`
     );
-
-    const data = resM.data.message.body.track;
-    data.lyrics = res.data.type !== 'notfound' ? res.data.mus[0].text : null;
+    console.log(res.data);
+    // Prepare data to send in dispatch
+    const preData = resM.data.message.body.track;
+    preData.lyrics = res.data.type !== 'notfound' ? res.data.mus[0].text : null;
+    const genre =
+      resM.data.message.body.track.primary_genres.music_genre_list.length > 0
+        ? {
+            music_genre:
+              resM.data.message.body.track.primary_genres.music_genre_list[0]
+                .music_genre.music_genre_name
+          }
+        : { music_genre: null };
+    const data = {
+      ...preData,
+      ...genre
+    };
     dispatch({
       type: GET_TRACK,
       payload: data

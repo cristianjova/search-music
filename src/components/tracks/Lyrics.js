@@ -1,9 +1,30 @@
 import React, { Fragment } from 'react';
 
-const Lyrics = ({ lyrics }) => {
+const Lyrics = ({ track }) => {
+  const { track_name, lyrics, album_name, music_genre, explicit } = track;
+  console.log(track);
   return (
     <Fragment>
-      <h4 className='lyrics-title'>Letra Canción</h4>
+      <h4 className='lyrics-title'>
+        Letra de {track_name}
+        <br />
+        <span className='text-secondary'>
+          <strong>
+            <i className='fas fa-compact-disc' /> Album
+          </strong>
+          : {album_name}
+          <br />
+          <strong>
+            <i className='fas fa-music' /> Genero
+          </strong>
+          : {music_genre !== null ? music_genre : 'No disponible'}
+          <br />
+          <strong>
+            <i className='fas fa-comment-slash' /> Palabras explicitas
+          </strong>
+          : {explicit === 0 ? 'No' : 'Si'}
+        </span>
+      </h4>
       <p className='lyrics'>{lyrics}</p>
     </Fragment>
   );

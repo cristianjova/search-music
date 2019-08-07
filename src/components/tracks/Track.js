@@ -1,4 +1,5 @@
 import React, { useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import Lyrics from './Lyrics';
 import Spinner from '../layouts/Spinner';
 
@@ -14,22 +15,21 @@ const TrackLyrics = ({ match }) => {
     // eslint-disable-next-line
   }, []);
 
-  const { artist_name, track_name, lyrics } = track;
-
   if (loading) return <Spinner />;
 
   return (
-    <div className='row mt-4'>
+    <div className='row mt-2'>
+      <Link to='/' className='btn btn-outline-primary'>
+        Volver
+      </Link>
       <div className='col-md-12'>
-        <div className='col-md-6 offset-md-3'>
-          <legend className='text-center'>
-            {artist_name} - {track_name}
-          </legend>
+        <div className='col-md-6 offset-md-3 mb-4'>
+          <h3 className='text-center'>{track.artist_name}</h3>
         </div>
       </div>
       <div className='col-md-6'>Info</div>
       <div className='col-md-6'>
-        <Lyrics lyrics={lyrics} />
+        <Lyrics track={track} />
       </div>
     </div>
   );
