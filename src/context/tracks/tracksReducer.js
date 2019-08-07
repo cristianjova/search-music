@@ -11,7 +11,8 @@ export default (state, action) => {
     case GET_TRACK:
       return {
         ...state,
-        track: action.payload
+        track: action.payload,
+        loading: false
       };
     case SET_LOADING:
       return {

@@ -16,7 +16,11 @@ function App() {
           <div className='container'>
             <Switch>
               <Route exact path='/' component={Index} />
-              <Route exact path='/lyrics/track/:id' component={TrackLyrics} />
+              <Route
+                exact
+                path='/lyrics/:id/:artist/:track'
+                component={TrackLyrics}
+              />
             </Switch>
           </div>
         </Fragment>

@@ -9,7 +9,8 @@ const TracksState = props => {
     track_list: [],
     heading: 'Top 10 Canciones',
     loading: false,
-    track: {}
+    track: {},
+    lyrics: {}
   };
 
   const [state, dispatch] = useReducer(TracksReducer, initialState);
@@ -34,16 +35,28 @@ const TracksState = props => {
     });
   };
 
-  const getTrack = async id => {
-    const res = await axios.get(
+  const getTrack = async (id, artist, track) => {
+    setLoading();
+
+    // API for track info
+    const resM = await axios.get(
       `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.get?commontrack_id=${id}&apikey=${
         process.env.REACT_APP_MM_KEY
       }`
     );
 
+    // API for lyrics
+    const res = await axios.get(
+      `http://api.vagalume.com.br/search.php?apikey=${
+        process.env.REACT_APP_VAGALUME_KEY
+      }&art=${artist}&mus=${track}&extra=alb`
+    );
+
+    const data = resM.data.message.body.track;
+    data.lyrics = res.data.type !== 'notfound' ? res.data.mus[0].text : null;
     dispatch({
       type: GET_TRACK,
-      payload: res.data.message.body.track
+      payload: data
     });
   };
 

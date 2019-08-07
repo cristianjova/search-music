@@ -20,7 +20,9 @@ const TrackItem = props => {
             : {track.album_name}
           </p>
           <Link
-            to={`lyrics/track/${track.commontrack_id}`}
+            to={`lyrics/${track.commontrack_id}/${track.artist_name}/${
+              track.track_name
+            }`}
             className='btn btn-dark btn-block'
           >
             <i className='fas fa-chevron-right' /> Ver Letra

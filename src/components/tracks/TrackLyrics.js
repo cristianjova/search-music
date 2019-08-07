@@ -5,11 +5,10 @@ import TracksContext from '../../context/tracks/tracksContext';
 const TrackLyrics = ({ match }) => {
   const tracksContext = useContext(TracksContext);
 
-  const { getTrack } = tracksContext;
+  const { getTrack, track } = tracksContext;
 
   useEffect(() => {
-    getTrack(match.params.id);
-    // getLyrics(match.params.login);
+    getTrack(match.params.id, match.params.artist, match.params.track);
     // eslint-disable-next-line
   }, []);
 
