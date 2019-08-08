@@ -1,4 +1,4 @@
-import { GET_TOP_TEN, SET_LOADING, GET_TRACK } from '../types';
+import { GET_TOP_TEN, SET_LOADING, GET_TRACK, GET_VIDEO } from '../types';
 
 export default (state, action) => {
   switch (action.type) {
@@ -13,6 +13,11 @@ export default (state, action) => {
         ...state,
         track: action.payload,
         loading: false
+      };
+    case GET_VIDEO:
+      return {
+        ...state,
+        video: action.payload
       };
     case SET_LOADING:
       return {

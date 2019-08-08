@@ -2,11 +2,11 @@ import React, { Fragment } from 'react';
 
 const Lyrics = ({ track }) => {
   const { track_name, lyrics, album_name, music_genre, explicit } = track;
-  console.log(track);
+
   return (
     <Fragment>
       <h4 className='lyrics-title'>
-        Letra de {track_name}
+        {track_name}
         <br />
         <span className='text-secondary'>
           <strong>

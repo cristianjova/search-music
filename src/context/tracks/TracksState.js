@@ -2,14 +2,15 @@ import React, { useReducer, useEffect } from 'react';
 import axios from 'axios';
 import TracksContext from './tracksContext';
 import TracksReducer from './tracksReducer';
-import { GET_TOP_TEN, SET_LOADING, GET_TRACK } from '../types';
+import { GET_TOP_TEN, SET_LOADING, GET_TRACK, GET_VIDEO } from '../types';
 
 const TracksState = props => {
   const initialState = {
     track_list: [],
     heading: 'Top 10 Canciones',
     loading: false,
-    track: {}
+    track: {},
+    video: {}
   };
 
   const [state, dispatch] = useReducer(TracksReducer, initialState);
@@ -44,13 +45,21 @@ const TracksState = props => {
       }`
     );
 
+    const artistSingular = artist.split('feat');
+    let res = {};
     // API for lyrics
-    const res = await axios.get(
-      `http://api.vagalume.com.br/search.php?apikey=${
-        process.env.REACT_APP_VAGALUME_KEY
-      }&art=${artist}&mus=${track}&extra=alb`
-    );
-    console.log(res.data);
+    if (artistSingular.length > 1) {
+      res = await axios.get(
+        `http://api.vagalume.com.br/search.php?apikey=1&art=${
+          artistSingular[0]
+        }&mus=${track}&extra=alb`
+      );
+    } else {
+      res = await axios.get(
+        `http://api.vagalume.com.br/search.php?apikey=1&art=${artist}&mus=${track}&extra=alb`
+      );
+    }
+
     // Prepare data to send in dispatch
     const preData = resM.data.message.body.track;
     preData.lyrics = res.data.type !== 'notfound' ? res.data.mus[0].text : null;
@@ -72,6 +81,19 @@ const TracksState = props => {
     });
   };
 
+  const getVideo = async (track, artist) => {
+    const res = await axios(
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&order=viewCount&q=${artist}%2B${track}&topicId=music%2Bvideo&type=video&videoCaption=any&key=${
+        process.env.REACT_APP_YOU_API
+      }`
+    );
+
+    dispatch({
+      type: GET_VIDEO,
+      payload: res.data.items[0]
+    });
+  };
+
   const setLoading = () => dispatch({ type: SET_LOADING });
 
   return (
@@ -81,8 +103,10 @@ const TracksState = props => {
         heading: state.heading,
         loading: state.loading,
         track: state.track,
+        video: state.video,
         getTopTen,
-        getTrack
+        getTrack,
+        getVideo
       }}
     >
       {props.children}
