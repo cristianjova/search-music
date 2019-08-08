@@ -9,8 +9,7 @@ const TracksState = props => {
     track_list: [],
     heading: 'Top 10 Canciones',
     loading: false,
-    track: {},
-    lyrics: {}
+    track: {}
   };
 
   const [state, dispatch] = useReducer(TracksReducer, initialState);
