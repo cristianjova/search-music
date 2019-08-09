@@ -1,5 +1,6 @@
 # search-music
-Search engine for artists and lyrics.
+
+Lyrics and video search engine of songs
 
 ## Built With
 
