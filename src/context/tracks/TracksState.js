@@ -9,6 +9,7 @@ const TracksState = props => {
     track_list: [],
     heading: 'Top 10 Canciones',
     loading: false,
+    loadingInfo: false,
     track: {},
     video: {}
   };
@@ -82,16 +83,35 @@ const TracksState = props => {
   };
 
   const getVideo = async (track, artist) => {
+    let res = {};
+
+    try {
+      res = await axios(
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&order=viewCount&q=${artist}%2B${track}&topicId=music%2Bvideo&type=video&videoCaption=any&key=${
+          process.env.REACT_APP_YOU_API
+        }`
+      );
+    } catch (error) {
+      res.video = null;
+      console.clear();
+    }
+    const data = res.video !== null ? res.data.items[0] : res.video;
+    dispatch({
+      type: GET_VIDEO,
+      payload: data
+    });
+  };
+
+  const getInfo = async artist => {
     const res = await axios(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&order=viewCount&q=${artist}%2B${track}&topicId=music%2Bvideo&type=video&videoCaption=any&key=${
-        process.env.REACT_APP_YOU_API
+      `https://www.theaudiodb.com/api/v1/json/1/search.php?s=${
+        artist !== undefined ? artist.split('feat')[0] : artist
       }`
     );
 
-    dispatch({
-      type: GET_VIDEO,
-      payload: res.data.items[0]
-    });
+    const data = res.data.artists !== null ? res.data.artists[0] : null;
+
+    return data;
   };
 
   const setLoading = () => dispatch({ type: SET_LOADING });
@@ -106,7 +126,8 @@ const TracksState = props => {
         video: state.video,
         getTopTen,
         getTrack,
-        getVideo
+        getVideo,
+        getInfo
       }}
     >
       {props.children}

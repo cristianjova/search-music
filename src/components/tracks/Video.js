@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, Fragment } from 'react';
 
 import TracksContext from '../../context/tracks/tracksContext';
 
@@ -12,16 +12,20 @@ const Video = () => {
   }, [track]);
 
   return (
-    <div className='embed-responsive embed-responsive-16by9 mb-4'>
-      <iframe
-        title='Title'
-        className='embed-responsive-item'
-        src={`https://www.youtube.com/embed/${
-          video.id !== undefined ? video.id.videoId : null
-        }?rel=0`}
-        allowFullScreen
-      />
-    </div>
+    <Fragment>
+      {video !== null ? (
+        <div className='embed-responsive embed-responsive-16by9 mb-4'>
+          <iframe
+            title='Title'
+            className='embed-responsive-item'
+            src={`https://www.youtube.com/embed/${
+              video.id !== undefined ? video.id.videoId : null
+            }?rel=0`}
+            allowFullScreen
+          />
+        </div>
+      ) : null}
+    </Fragment>
   );
 };
 

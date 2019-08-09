@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Lyrics from './Lyrics';
 import Video from './Video';
+import Info from './Info';
 import Spinner from '../layouts/Spinner';
 
 import TracksContext from '../../context/tracks/tracksContext';
@@ -31,7 +32,8 @@ const TrackLyrics = ({ match }) => {
         </div>
       </div>
       <div className='col-md-6'>
-        <Video track={track.track_name} artist={track.artist_name} />
+        <Video />
+        <Info />
       </div>
       <div className='col-md-6'>
         <Lyrics track={track} />

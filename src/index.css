@@ -60,18 +60,18 @@ form.card {
   padding-bottom: 10px;
 }
 
-/* .card-body i {
+.social-icons {
   font-size: 3rem;
   margin-right: 3rem;
-} */
+}
 
-.fa-facebook {
+.fa-facebook-square {
   color: #3b5998;
 }
-.fa-twitter {
+.fa-twitter-square {
   color: #0084b4;
 }
-.fa-lastfm {
+.fa-lastfm-square {
   color: #d51007;
 }
 
