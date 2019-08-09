@@ -25,7 +25,11 @@ const Lyrics = ({ track }) => {
           : {explicit === 0 ? 'No' : 'Si'}
         </span>
       </h4>
-      <p className='lyrics'>{lyrics}</p>
+      {lyrics !== null ? (
+        <p className='lyrics'>{lyrics}</p>
+      ) : (
+        <p>Letra no disponible</p>
+      )}
     </Fragment>
   );
 };

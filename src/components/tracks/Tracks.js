@@ -13,7 +13,7 @@ const Tracks = () => {
 
   return (
     <Fragment>
-      <h3 className='text-center my-4'>{heading}</h3>
+      <h3 className='text-center my-4 text-card-principal'>{heading}</h3>
       <div className='row'>
         {track_list.map(item => (
           <TrackItem key={item.track.track_id} track={item.track} />

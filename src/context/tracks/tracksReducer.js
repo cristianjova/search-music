@@ -1,4 +1,10 @@
-import { GET_TOP_TEN, SET_LOADING, GET_TRACK, GET_VIDEO } from '../types';
+import {
+  GET_TOP_TEN,
+  SET_LOADING,
+  GET_TRACK,
+  GET_VIDEO,
+  SEARCH_TRACKS
+} from '../types';
 
 export default (state, action) => {
   switch (action.type) {
@@ -6,6 +12,13 @@ export default (state, action) => {
       return {
         ...state,
         track_list: action.payload,
+        loading: false
+      };
+    case SEARCH_TRACKS:
+      return {
+        ...state,
+        track_list: action.payload,
+        heading: 'Resultados Busqueda',
         loading: false
       };
     case GET_TRACK:

@@ -2,7 +2,13 @@ import React, { useReducer, useEffect } from 'react';
 import axios from 'axios';
 import TracksContext from './tracksContext';
 import TracksReducer from './tracksReducer';
-import { GET_TOP_TEN, SET_LOADING, GET_TRACK, GET_VIDEO } from '../types';
+import {
+  GET_TOP_TEN,
+  SET_LOADING,
+  GET_TRACK,
+  GET_VIDEO,
+  SEARCH_TRACKS
+} from '../types';
 
 const TracksState = props => {
   const initialState = {
@@ -21,6 +27,7 @@ const TracksState = props => {
     // eslint-disable-next-line
   }, []);
 
+  // Get topten music from MM
   const getTopTen = async () => {
     setLoading();
 
@@ -36,6 +43,7 @@ const TracksState = props => {
     });
   };
 
+  // Get track info and lyrics
   const getTrack = async (id, artist, track) => {
     setLoading();
 
@@ -60,10 +68,10 @@ const TracksState = props => {
         `http://api.vagalume.com.br/search.php?apikey=1&art=${artist}&mus=${track}&extra=alb`
       );
     }
-
+    console.log(res);
     // Prepare data to send in dispatch
     const preData = resM.data.message.body.track;
-    preData.lyrics = res.data.type !== 'notfound' ? res.data.mus[0].text : null;
+    preData.lyrics = res.data.type === 'exact' ? res.data.mus[0].text : null;
     const genre =
       resM.data.message.body.track.primary_genres.music_genre_list.length > 0
         ? {
@@ -82,6 +90,7 @@ const TracksState = props => {
     });
   };
 
+  // Get video from YT
   const getVideo = async (track, artist) => {
     let res = {};
 
@@ -93,7 +102,7 @@ const TracksState = props => {
       );
     } catch (error) {
       res.video = null;
-      console.clear();
+      // console.clear();
     }
     const data = res.video !== null ? res.data.items[0] : res.video;
     dispatch({
@@ -102,6 +111,7 @@ const TracksState = props => {
     });
   };
 
+  // Get info of artist
   const getInfo = async artist => {
     const res = await axios(
       `https://www.theaudiodb.com/api/v1/json/1/search.php?s=${
@@ -112,6 +122,21 @@ const TracksState = props => {
     const data = res.data.artists !== null ? res.data.artists[0] : null;
 
     return data;
+  };
+
+  const findTracks = async song => {
+    setLoading();
+
+    const res = await axios.get(
+      `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?q_track=${song}&page_size=10&page=1&s_track_rating=desc&apikey=${
+        process.env.REACT_APP_MM_KEY
+      }`
+    );
+    console.log(res.data);
+    dispatch({
+      type: SEARCH_TRACKS,
+      payload: res.data.message.body.track_list
+    });
   };
 
   const setLoading = () => dispatch({ type: SET_LOADING });
@@ -127,7 +152,8 @@ const TracksState = props => {
         getTopTen,
         getTrack,
         getVideo,
-        getInfo
+        getInfo,
+        findTracks
       }}
     >
       {props.children}
