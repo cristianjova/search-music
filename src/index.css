@@ -73,6 +73,11 @@ form.card {
   margin-right: 3rem;
 }
 
+.social-icons-mobile {
+  font-size: 1.5rem;
+  margin-right: 1.5rem;
+}
+
 .fa-facebook-square {
   color: #3b5998;
 }
@@ -88,4 +93,12 @@ form.card {
 }
 .navbar {
   padding: 0.75rem 1rem;
+}
+
+.text-lines-5 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
 }

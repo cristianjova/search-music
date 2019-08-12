@@ -31,11 +31,11 @@ const TrackLyrics = ({ match }) => {
           <h3 className='text-center'>{track.artist_name}</h3>
         </div>
       </div>
-      <div className='col-md-6'>
+      <div className='col-sm-12 col-md-6 col-lg-6'>
         <Video />
         <Info />
       </div>
-      <div className='col-md-6'>
+      <div className='col-sm-12 col-md-6 col-log-6'>
         <Lyrics track={track} />
       </div>
     </div>

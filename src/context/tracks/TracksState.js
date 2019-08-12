@@ -32,7 +32,7 @@ const TracksState = props => {
     setLoading();
 
     const res = await axios.get(
-      `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/chart.tracks.get?chart_name=top&page=1&page_size=10&country=us&f_has_lyrics=1&apikey=${
+      `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/chart.tracks.get?chart_name=top&page=1&page_size=10&country=ar&f_has_lyrics=1&apikey=${
         process.env.REACT_APP_MM_KEY
       }`
     );
@@ -68,10 +68,13 @@ const TracksState = props => {
         `http://api.vagalume.com.br/search.php?apikey=1&art=${artist}&mus=${track}&extra=alb`
       );
     }
-    console.log(res);
+
     // Prepare data to send in dispatch
     const preData = resM.data.message.body.track;
-    preData.lyrics = res.data.type === 'exact' ? res.data.mus[0].text : null;
+    preData.lyrics =
+      res.data.type === 'exact' || res.data.type === 'aprox'
+        ? res.data.mus[0].text
+        : null;
     const genre =
       resM.data.message.body.track.primary_genres.music_genre_list.length > 0
         ? {
@@ -93,13 +96,17 @@ const TracksState = props => {
   // Get video from YT
   const getVideo = async (track, artist) => {
     let res = {};
+    const artistFormated =
+      artist !== undefined ? artist.replace(/\s/g, '+') : artist;
+    const trackFormated =
+      track !== undefined ? track.replace(/\s/g, '+') : track;
 
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${artistFormated}%2B${trackFormated}&topicId=music%2Bvideo&type=video&videoCaption=any&key=${
+      process.env.REACT_APP_YOU_API
+    }`;
+    console.log(url);
     try {
-      res = await axios(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&order=viewCount&q=${artist}%2B${track}&topicId=music%2Bvideo&type=video&videoCaption=any&key=${
-          process.env.REACT_APP_YOU_API
-        }`
-      );
+      res = await axios(url);
     } catch (error) {
       res.video = null;
       // console.clear();
@@ -111,7 +118,7 @@ const TracksState = props => {
     });
   };
 
-  // Get info of artist
+  // Get artist data
   const getInfo = async artist => {
     const res = await axios(
       `https://www.theaudiodb.com/api/v1/json/1/search.php?s=${
@@ -120,7 +127,6 @@ const TracksState = props => {
     );
 
     const data = res.data.artists !== null ? res.data.artists[0] : null;
-
     return data;
   };
 
@@ -132,7 +138,7 @@ const TracksState = props => {
         process.env.REACT_APP_MM_KEY
       }`
     );
-    console.log(res.data);
+
     dispatch({
       type: SEARCH_TRACKS,
       payload: res.data.message.body.track_list
