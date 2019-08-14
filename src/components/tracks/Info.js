@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import TrackContext from '../../context/tracks/tracksContext';
 
 const Info = () => {
@@ -19,7 +20,7 @@ const Info = () => {
   return (
     <Fragment>
       {info === null ? (
-        <div className='card border-light'>
+        <div className='card border-light mb-4'>
           <div className='card-header bg-primary text-light font-weight-bold'>
             Información Artista
           </div>
@@ -122,10 +123,9 @@ const Info = () => {
                   ? info.strBiographyES
                   : info.strBiographyEN}
               </small>
-              {/* <br /> */}
-              <a href='#' className=''>
+              <Link to={`/artist/${info.strArtist}/${track.commontrack_id}`}>
                 Ver Más
-              </a>
+              </Link>
             </div>
           </div>
         </div>

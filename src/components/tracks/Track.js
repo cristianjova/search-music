@@ -23,7 +23,7 @@ const TrackLyrics = ({ match }) => {
     <div className='row mt-2'>
       <div className='col-md-12'>
         <Link to='/' className='btn btn-outline-primary'>
-          <i className='fas fa-arrow-left' />
+          Volver
         </Link>
       </div>
       <div className='col-md-12'>

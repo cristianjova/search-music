@@ -104,7 +104,7 @@ const TracksState = props => {
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${artistFormated}%2B${trackFormated}&topicId=music%2Bvideo&type=video&videoCaption=any&key=${
       process.env.REACT_APP_YOU_API
     }`;
-    console.log(url);
+
     try {
       res = await axios(url);
     } catch (error) {
