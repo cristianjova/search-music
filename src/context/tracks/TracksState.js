@@ -43,7 +43,7 @@ const TracksState = props => {
     setLoading();
 
     const res = await axios.get(
-      `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/chart.tracks.get?chart_name=top&page=1&page_size=10&country=ar&f_has_lyrics=1&apikey=${musicApiKey}`
+      `https://api.musixmatch.com/ws/1.1/chart.tracks.get?chart_name=top&page=1&page_size=10&country=ar&f_has_lyrics=1&apikey=${musicApiKey}`
     );
 
     dispatch({
