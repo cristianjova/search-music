@@ -17,8 +17,8 @@ if (process.env.NODE_ENV !== 'production') {
   musicApiKey = process.env.REACT_APP_MM_KEY;
   youtubeApiKey = process.env.REACT_APP_YOU_API;
 } else {
-  musicApiKey = process.env.MM_KEY;
-  youtubeApiKey = process.env.YOU_API;
+  musicApiKey = process.env.REACT_APP_MM_KEY;
+  youtubeApiKey = process.env.REACT_APP_YOU_API;
 }
 
 const TracksState = props => {
@@ -40,7 +40,6 @@ const TracksState = props => {
 
   // Get topten music from MM
   const getTopTen = async () => {
-    console.log(musicApiKey);
     setLoading();
 
     const res = await axios.get(
