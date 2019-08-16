@@ -10,6 +10,17 @@ import {
   SEARCH_TRACKS
 } from '../types';
 
+let musicApiKey;
+let youtubeApiKey;
+
+if (process.env.NODE_ENV !== 'production') {
+  musicApiKey = process.env.REACT_APP_MM_KEY;
+  youtubeApiKey = process.env.REACT_APP_YOU_API;
+} else {
+  musicApiKey = process.env.MM_KEY;
+  youtubeApiKey = process.env.YOU_API;
+}
+
 const TracksState = props => {
   const initialState = {
     track_list: [],
@@ -32,9 +43,7 @@ const TracksState = props => {
     setLoading();
 
     const res = await axios.get(
-      `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/chart.tracks.get?chart_name=top&page=1&page_size=10&country=ar&f_has_lyrics=1&apikey=${
-        process.env.REACT_APP_MM_KEY
-      }`
+      `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/chart.tracks.get?chart_name=top&page=1&page_size=10&country=ar&f_has_lyrics=1&apikey=${musicApiKey}`
     );
 
     dispatch({
@@ -49,9 +58,7 @@ const TracksState = props => {
 
     // API for track info
     const resM = await axios.get(
-      `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.get?commontrack_id=${id}&apikey=${
-        process.env.REACT_APP_MM_KEY
-      }`
+      `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.get?commontrack_id=${id}&apikey=${musicApiKey}`
     );
 
     const artistSingular = artist.split('feat');
@@ -101,9 +108,7 @@ const TracksState = props => {
     const trackFormated =
       track !== undefined ? track.replace(/\s/g, '+') : track;
 
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${artistFormated}%2B${trackFormated}&topicId=music%2Bvideo&type=video&videoCaption=any&key=${
-      process.env.REACT_APP_YOU_API
-    }`;
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${artistFormated}%2B${trackFormated}&topicId=music%2Bvideo&type=video&videoCaption=any&key=${youtubeApiKey}`;
 
     try {
       res = await axios(url);
@@ -134,9 +139,7 @@ const TracksState = props => {
     setLoading();
 
     const res = await axios.get(
-      `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?q_track=${song}&page_size=10&page=1&s_track_rating=desc&apikey=${
-        process.env.REACT_APP_MM_KEY
-      }`
+      `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?q_track=${song}&page_size=10&page=1&s_track_rating=desc&apikey=${musicApiKey}`
     );
 
     dispatch({
