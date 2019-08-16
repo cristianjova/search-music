@@ -66,13 +66,13 @@ const TracksState = props => {
     // API for lyrics
     if (artistSingular.length > 1) {
       res = await axios.get(
-        `http://api.vagalume.com.br/search.php?apikey=1&art=${
+        `https://api.vagalume.com.br/search.php?apikey=1&art=${
           artistSingular[0]
         }&mus=${track}&extra=alb`
       );
     } else {
       res = await axios.get(
-        `http://api.vagalume.com.br/search.php?apikey=1&art=${artist}&mus=${track}&extra=alb`
+        `https://api.vagalume.com.br/search.php?apikey=1&art=${artist}&mus=${track}&extra=alb`
       );
     }
 
