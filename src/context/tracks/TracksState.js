@@ -40,6 +40,7 @@ const TracksState = props => {
 
   // Get topten music from MM
   const getTopTen = async () => {
+    console.log(musicApiKey);
     setLoading();
 
     const res = await axios.get(
