@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer } from 'react';
 import axios from 'axios';
 import TracksContext from './tracksContext';
 import TracksReducer from './tracksReducer';
@@ -7,48 +7,81 @@ import {
   SET_LOADING,
   GET_TRACK,
   GET_VIDEO,
-  SEARCH_TRACKS
+  SEARCH_TRACKS,
 } from '../types';
 
 let musicApiKey;
 let youtubeApiKey;
+let lastFm;
 
 if (process.env.NODE_ENV !== 'production') {
   musicApiKey = process.env.REACT_APP_MM_KEY;
   youtubeApiKey = process.env.REACT_APP_YOU_API;
+  lastFm = process.env.REACT_APP_LASTFM_KEY;
 } else {
   musicApiKey = process.env.REACT_APP_MM_KEY;
   youtubeApiKey = process.env.REACT_APP_YOU_API;
+  lastFm = process.env.REACT_APP_LASTFM_KEY;
 }
 
-const TracksState = props => {
+const TracksState = (props) => {
   const initialState = {
     track_list: [],
-    heading: 'Top 10 Canciones',
+    heading: 'Top 10',
     loading: false,
     loadingInfo: false,
     track: {},
-    video: {}
+    video: {},
   };
 
   const [state, dispatch] = useReducer(TracksReducer, initialState);
-
-  useEffect(() => {
-    getTopTen();
-    // eslint-disable-next-line
-  }, []);
 
   // Get topten music from MM
   const getTopTen = async () => {
     setLoading();
 
+    let data = [];
+
+    // Data retrieve from musixmatch
     const res = await axios.get(
       `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/chart.tracks.get?chart_name=hot&page=1&page_size=10&country=ar&f_has_lyrics=1&apikey=${musicApiKey}`
     );
 
+    // Generate promises then execute in order
+    const promises = await res.data.message.body.track_list.map(
+      async (item) => {
+        const artistSingular = item.track.artist_name.split(' feat');
+        let res;
+
+        if (artistSingular.length > 1) {
+          res = await axios.get(
+            `https://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=${lastFm}&artist=${artistSingular[0]}&album=${item.track.album_name}&format=json`
+          );
+        } else {
+          res = await axios.get(
+            `https://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=${lastFm}&artist=${item.track.artist_name}&album=${item.track.album_name}&format=json`
+          );
+        }
+
+        return res.data.album;
+      }
+    );
+
+    // Resolve all promises
+    const res1 = await Promise.all(promises);
+
+    // Iterate over res and add image from res1
+    res.data.message.body.track_list.forEach((item, index) => {
+      data.push({
+        image: res1[index] !== undefined ? res1[index].image[2]['#text'] : '',
+        position: index + 1,
+        track: item.track,
+      });
+    });
+    console.log(data);
     dispatch({
       type: GET_TOP_TEN,
-      payload: res.data.message.body.track_list
+      payload: data,
     });
   };
 
@@ -66,9 +99,7 @@ const TracksState = props => {
     // API for lyrics
     if (artistSingular.length > 1) {
       res = await axios.get(
-        `https://api.vagalume.com.br/search.php?apikey=1&art=${
-          artistSingular[0]
-        }&mus=${track}&extra=alb`
+        `https://api.vagalume.com.br/search.php?apikey=1&art=${artistSingular[0]}&mus=${track}&extra=alb`
       );
     } else {
       res = await axios.get(
@@ -87,16 +118,16 @@ const TracksState = props => {
         ? {
             music_genre:
               resM.data.message.body.track.primary_genres.music_genre_list[0]
-                .music_genre.music_genre_name
+                .music_genre.music_genre_name,
           }
         : { music_genre: null };
     const data = {
       ...preData,
-      ...genre
+      ...genre,
     };
     dispatch({
       type: GET_TRACK,
-      payload: data
+      payload: data,
     });
   };
 
@@ -119,12 +150,12 @@ const TracksState = props => {
     const data = res.video !== null ? res.data.items[0] : res.video;
     dispatch({
       type: GET_VIDEO,
-      payload: data
+      payload: data,
     });
   };
 
   // Get artist data
-  const getInfo = async artist => {
+  const getInfo = async (artist) => {
     const res = await axios(
       `https://www.theaudiodb.com/api/v1/json/1/search.php?s=${
         artist !== undefined ? artist.split('feat')[0] : artist
@@ -135,7 +166,7 @@ const TracksState = props => {
     return data;
   };
 
-  const findTracks = async song => {
+  const findTracks = async (song) => {
     setLoading();
 
     const res = await axios.get(
@@ -144,7 +175,7 @@ const TracksState = props => {
 
     dispatch({
       type: SEARCH_TRACKS,
-      payload: res.data.message.body.track_list
+      payload: res.data.message.body.track_list,
     });
   };
 
@@ -162,7 +193,7 @@ const TracksState = props => {
         getTrack,
         getVideo,
         getInfo,
-        findTracks
+        findTracks,
       }}
     >
       {props.children}
