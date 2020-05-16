@@ -3,7 +3,8 @@ import {
   SET_LOADING,
   GET_TRACK,
   GET_VIDEO,
-  SEARCH_TRACKS
+  SEARCH_TRACKS,
+  SET_SEARCH,
 } from '../types';
 
 export default (state, action) => {
@@ -12,30 +13,39 @@ export default (state, action) => {
       return {
         ...state,
         track_list: action.payload,
-        loading: false
+        track: {},
+        video: {},
+        search: '',
+        loading: false,
       };
     case SEARCH_TRACKS:
       return {
         ...state,
         track_list: action.payload,
-        heading: 'Resultados Busqueda',
-        loading: false
+        track: {},
+        video: {},
+        loading: false,
+      };
+    case SET_SEARCH:
+      return {
+        ...state,
+        search: action.payload,
       };
     case GET_TRACK:
       return {
         ...state,
         track: action.payload,
-        loading: false
+        loading: false,
       };
     case GET_VIDEO:
       return {
         ...state,
-        video: action.payload
+        video: action.payload,
       };
     case SET_LOADING:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     default:
       return state;

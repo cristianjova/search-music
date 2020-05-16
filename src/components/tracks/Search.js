@@ -16,12 +16,8 @@ const Search = () => {
 
   return (
     <div className='card card-body mt-2 p-3'>
-      <h2 className='text-center font-weight-normal d-none d-sm-block'>
-        Buscar Letra
-      </h2>
-      <h4 className='text-center font-weight-normal d-block d-sm-none'>
-        Buscar Letra
-      </h4>
+      <h2 className='text-center d-none d-sm-block'>Buscar Letra</h2>
+      <h4 className='text-center d-block d-sm-none'>Buscar Letra</h4>
       <p className='text-dark text-center d-none d-sm-block'>
         Obtene la letra de cualquier canción
       </p>
@@ -32,7 +28,7 @@ const Search = () => {
         Obtene la letra de cualquier canción
       </p>
       <form onSubmit={onSubmit}>
-        <div className='input-group mb-3'>
+        <div className='input-group'>
           <input
             type='text'
             className='form-control'
@@ -52,6 +48,9 @@ const Search = () => {
             </button>
           </div>
         </div>
+        <small id='trackHelp' className='form-text text-muted'>
+          Busqueda en blanco actualiza Top 10.
+        </small>
       </form>
     </div>
   );

@@ -4,3 +4,4 @@ export const SET_LOADING = 'SET_LOADING';
 export const GET_TRACK = 'GET_TRACK';
 export const GET_VIDEO = 'GET_VIDEO';
 export const SET_LYRICS = 'SET_LYRICS';
+export const SET_SEARCH = 'SET_SEARCH';

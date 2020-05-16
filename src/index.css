@@ -20,6 +20,7 @@ legend {
   width: 160px;
   margin: 0;
   font-family: 'Work Sans', sans-serif;
+  font-weight: 700;
 }
 
 legend::before {
@@ -65,7 +66,7 @@ form.card {
 }
 
 .text-card-principal {
-  font-family: 'Work Sans', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 .social-icons {
@@ -109,4 +110,8 @@ form.card {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
+}
+
+li.media.border.border-light:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 }

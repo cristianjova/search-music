@@ -30,12 +30,21 @@ const TrackItem = (props) => {
                   {track.track.album_name}
                 </span>
                 <br />
-                <span>
-                  <strong className='text-secondary'>
-                    <i class='fab fa-hotjar'></i> Ranking:
-                  </strong>{' '}
-                  {track.position}
-                </span>
+                {track.position !== null ? (
+                  <span>
+                    <strong className='text-secondary'>
+                      <i className='fab fa-hotjar'></i> Ranking:
+                    </strong>{' '}
+                    {track.position}
+                  </span>
+                ) : (
+                  <span>
+                    <strong className='text-secondary'>
+                      <i className='fas fa-heart'></i> Favs:
+                    </strong>{' '}
+                    {track.track.num_favourite}
+                  </span>
+                )}
               </div>
             </div>
             <img

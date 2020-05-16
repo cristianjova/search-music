@@ -7,7 +7,7 @@ import TracksContext from '../../context/tracks/tracksContext';
 const Tracks = () => {
   const tracksContext = useContext(TracksContext);
 
-  const { track_list, heading, loading, getTopTen } = tracksContext;
+  const { track_list, search, loading, getTopTen } = tracksContext;
 
   useEffect(() => {
     getTopTen();
@@ -19,10 +19,10 @@ const Tracks = () => {
   return (
     <Fragment>
       <h3 className='text-center my-4 text-card-principal d-none d-sm-block'>
-        {heading}
+        {search !== '' ? `Resultados para "${search}"` : 'Top 10'}
       </h3>
-      <h4 className='text-center my-4 text-card-principal d-block d-sm-none font-weight-bold'>
-        {heading}
+      <h4 className='text-center my-4 text-card-principal d-block d-sm-none'>
+        {search !== '' ? `Resultados para "${search}"` : 'Top 10'}
       </h4>
       <div className='row'>
         {track_list !== undefined &&

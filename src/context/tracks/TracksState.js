@@ -8,6 +8,7 @@ import {
   GET_TRACK,
   GET_VIDEO,
   SEARCH_TRACKS,
+  SET_SEARCH,
 } from '../types';
 
 let musicApiKey;
@@ -27,9 +28,8 @@ if (process.env.NODE_ENV !== 'production') {
 const TracksState = (props) => {
   const initialState = {
     track_list: [],
-    heading: 'Top 10',
+    search: '',
     loading: false,
-    loadingInfo: false,
     track: {},
     video: {},
   };
@@ -78,7 +78,7 @@ const TracksState = (props) => {
         track: item.track,
       });
     });
-    console.log(data);
+
     dispatch({
       type: GET_TOP_TEN,
       payload: data,
@@ -166,16 +166,56 @@ const TracksState = (props) => {
     return data;
   };
 
+  // Search Lyrics by name
   const findTracks = async (song) => {
     setLoading();
 
+    let data = [];
+
+    // Data retrieve from musixmatch
     const res = await axios.get(
       `https://cors-anywhere.herokuapp.com/https://api.musixmatch.com/ws/1.1/track.search?q_track=${song}&page_size=10&page=1&s_track_rating=desc&apikey=${musicApiKey}`
     );
 
+    // Generate promises then execute in order
+    const promises = await res.data.message.body.track_list.map(
+      async (item) => {
+        const artistSingular = item.track.artist_name.split(' feat');
+        let res;
+
+        if (artistSingular.length > 1) {
+          res = await axios.get(
+            `https://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=${lastFm}&artist=${artistSingular[0]}&album=${item.track.album_name}&format=json`
+          );
+        } else {
+          res = await axios.get(
+            `https://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=${lastFm}&artist=${item.track.artist_name}&album=${item.track.album_name}&format=json`
+          );
+        }
+
+        return res.data.album;
+      }
+    );
+
+    // Resolve all promises
+    const res1 = await Promise.all(promises);
+
+    // Iterate over res and add image from res1
+    res.data.message.body.track_list.forEach((item, index) => {
+      data.push({
+        image: res1[index] !== undefined ? res1[index].image[2]['#text'] : '',
+        position: null,
+        track: item.track,
+      });
+    });
+
+    dispatch({
+      type: SET_SEARCH,
+      payload: song,
+    });
     dispatch({
       type: SEARCH_TRACKS,
-      payload: res.data.message.body.track_list,
+      payload: data,
     });
   };
 
@@ -185,7 +225,7 @@ const TracksState = (props) => {
     <TracksContext.Provider
       value={{
         track_list: state.track_list,
-        heading: state.heading,
+        search: state.search,
         loading: state.loading,
         track: state.track,
         video: state.video,
