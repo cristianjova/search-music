@@ -24,7 +24,7 @@ function App() {
               />
               <Route
                 exact
-                path='/artist/:artist_name/:id'
+                path='/artist/:artist_name'
                 component={InfoSingular}
               />
             </Switch>

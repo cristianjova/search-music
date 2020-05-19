@@ -2,58 +2,66 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import notImage from '../../images/not-image.webp';
 
-const TrackItem = (props) => {
-  const { track } = props;
-
+const TrackItem = ({ track }) => {
   return (
     <div className='col-md-6'>
       <ul className='list-unstyled'>
         <Link
-          to={`lyrics/${track.track.commontrack_id}/${track.track.artist_name}/${track.track.track_name}`}
+          to={`lyrics/${track.id}/${track.artist.name}/${track.title}`}
           className='btn btn-block'
+          style={{ padding: '0' }}
         >
           <li className='media border border-light'>
-            <div className='media-body p-1 p-sm-3'>
-              <h5 className='mt-0 mb-1 text-left'>{track.track.artist_name}</h5>
+            <div className='media-body p-2 p-sm-3'>
+              <h5 className='mt-0 mb-1 text-left'>{track.artist.name}</h5>
               <div className='text-card-principal mb-3 text-left'>
                 <span>
                   <strong className='text-secondary'>
                     <i className='fas fa-play text-secondary' /> Track:
                   </strong>{' '}
-                  {track.track.track_name}
+                  {track.title}
                 </span>
                 <br />
                 <span>
                   <strong className='text-secondary'>
                     <i className='fas fa-compact-disc text-secondary' /> Album:
                   </strong>{' '}
-                  {track.track.album_name}
+                  {track.album.title}
                 </span>
                 <br />
-                {track.position !== null ? (
+                {track.position ? (
                   <span>
                     <strong className='text-secondary'>
-                      <i className='fab fa-hotjar'></i> Ranking:
+                      <i className='fas fa-list-ol'></i> Posición:
                     </strong>{' '}
                     {track.position}
                   </span>
                 ) : (
                   <span>
                     <strong className='text-secondary'>
-                      <i className='fas fa-heart'></i> Favs:
+                      <i className='fab fa-hotjar'></i> Ranking:
                     </strong>{' '}
-                    {track.track.num_favourite}
+                    {track.rank}
                   </span>
                 )}
               </div>
             </div>
             <img
-              src={track.image === '' ? notImage : track.image}
+              src={
+                track.album.cover_medium === ''
+                  ? notImage
+                  : track.album.cover_medium
+              }
               alt='Cover Album'
               className='align-self-center d-none d-sm-block'
+              style={{ width: '150px', height: '150px' }}
             />
             <img
-              src={track.image === '' ? notImage : track.image}
+              src={
+                track.album.cover_medium === ''
+                  ? notImage
+                  : track.album.cover_medium
+              }
               alt='Cover Album'
               className='align-self-center d-block d-sm-none'
               style={{ width: '40%' }}

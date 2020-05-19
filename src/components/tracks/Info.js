@@ -9,7 +9,7 @@ const Info = () => {
 
   useEffect(() => {
     let isSubscribed = true;
-    getInfo(track.artist_name).then(res =>
+    getInfo(track.artist_name).then((res) =>
       isSubscribed ? setInfo(res) : null
     );
 
@@ -123,9 +123,7 @@ const Info = () => {
                   ? info.strBiographyES
                   : info.strBiographyEN}
               </small>
-              <Link to={`/artist/${info.strArtist}/${track.commontrack_id}`}>
-                Ver Más
-              </Link>
+              <Link to={`/artist/${info.strArtist}`}>Ver Más</Link>
             </div>
           </div>
         </div>

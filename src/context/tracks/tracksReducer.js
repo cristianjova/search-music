@@ -5,10 +5,16 @@ import {
   GET_VIDEO,
   SEARCH_TRACKS,
   SET_SEARCH,
+  SET_TOP_TEN,
 } from '../types';
 
 export default (state, action) => {
   switch (action.type) {
+    case SET_TOP_TEN:
+      return {
+        ...state,
+        top: action.payload,
+      };
     case GET_TOP_TEN:
       return {
         ...state,

@@ -7,7 +7,7 @@ const Video = () => {
   const { getVideo, video, track } = tracksContext;
 
   useEffect(() => {
-    getVideo(track.track_name, track.artist_name);
+    getVideo(track.track_title, track.artist_name);
     // eslint-disable-next-line
   }, [track]);
 
