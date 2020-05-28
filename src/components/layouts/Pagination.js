@@ -18,7 +18,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate, currentPage }) => {
             }
           >
             <a onClick={() => paginate(number)} href='#!' className='page-link'>
-              {number}
+              {number} <span className='sr-only'>(current)</span>
             </a>
           </li>
         ))}

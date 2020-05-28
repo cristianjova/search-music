@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Navbar from './components/layouts/Navbar';
+import Footer from './components/layouts/Footer';
 import Index from './components/layouts/Index';
 import Track from './components/tracks/Track';
 import InfoSingular from './components/tracks/InfoSingular';
@@ -14,7 +15,10 @@ function App() {
       <Router>
         <Fragment>
           <Navbar />
-          <div className='container'>
+          <div
+            className='container'
+            style={{ minHeight: 'calc(100vh - 85px)' }}
+          >
             <Switch>
               <Route exact path='/' component={Index} />
               <Route
@@ -29,6 +33,7 @@ function App() {
               />
             </Switch>
           </div>
+          <Footer />
         </Fragment>
       </Router>
     </TracksState>
