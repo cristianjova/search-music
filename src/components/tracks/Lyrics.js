@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 const Lyrics = ({ track }) => {
   const {
-    track_title,
+    artist_name,
     lyrics,
     album_name,
     explicit_content_lyrics,
@@ -10,9 +10,9 @@ const Lyrics = ({ track }) => {
   } = track;
 
   return (
-    <Fragment>
+    <>
       <h4 className='lyrics-title'>
-        {track_title}
+        {artist_name}
         <br />
         <span className='text-secondary'>
           <strong>
@@ -36,7 +36,7 @@ const Lyrics = ({ track }) => {
       ) : (
         <p>Letra no disponible</p>
       )}
-    </Fragment>
+    </>
   );
 };
 

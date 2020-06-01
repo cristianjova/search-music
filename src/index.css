@@ -47,6 +47,8 @@ form.card {
 
 .lyrics {
   white-space: pre-wrap;
+  font-size: 1.2rem;
+  font-family: 'Work Sans', sans-serif;
 }
 
 .card img {
@@ -114,4 +116,10 @@ form.card {
 
 li.media.border.border-light:hover {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+@media (max-width: 576px) {
+  .lyrics {
+    font-size: 1rem;
+  }
 }

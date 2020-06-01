@@ -83,6 +83,10 @@ const TracksState = (props) => {
       `https://cors-anywhere.herokuapp.com/https://api.deezer.com/track/${id}`
     );
 
+    const topTenArtist = await axios.get(
+      `https://cors-anywhere.herokuapp.com/https://api.deezer.com/artist/${resDeezer.data.artist.id}/top&index=0&limit=10&output=json`
+    );
+
     // Get lyrics from Vagalume
     let vagalumeLyrics;
     try {
@@ -125,6 +129,7 @@ const TracksState = (props) => {
       lyrics: lyrics,
       explicit_content_lyrics: preData.explicit_content_lyrics,
       release_date: preData.release_date,
+      topTen: topTenArtist.data.data,
     };
 
     dispatch({

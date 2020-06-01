@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Spinner from '../layouts/Spinner';
 import TrackContext from '../../context/tracks/tracksContext';
+import BackButton from '../layouts/BackButton';
 
 const InfoSingular = ({ match, history }) => {
   const trackContext = useContext(TrackContext);
@@ -9,7 +10,7 @@ const InfoSingular = ({ match, history }) => {
 
   useEffect(() => {
     let isSubscribed = true;
-    getInfo(match.params.artist_name).then(res =>
+    getInfo(match.params.artist_name).then((res) =>
       isSubscribed ? setInfo(res) : null
     );
 
@@ -20,14 +21,9 @@ const InfoSingular = ({ match, history }) => {
   if (info.idArtist === undefined) return <Spinner />;
   return (
     <div className='row mt-2'>
-      <div className='col-12'>
-        <button
-          className='btn btn-outline-primary'
-          onClick={() => history.goBack()}
-        >
-          Volver
-        </button>
-        <h1 className='text-center'>{info.strArtist}</h1>
+      <BackButton />
+      <div className='col-md-8 offset-md-2 mt-3'>
+        <h3 className='text-center'>{info.strArtist}</h3>
       </div>
       <div className='col-md-6'>
         <div className='card border'>

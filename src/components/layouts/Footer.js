@@ -12,7 +12,7 @@ const Footer = () => {
               rel='noopener noreferrer'
               className='text-primary'
             >
-              <i className='fab fa-github fa-2x mr-2'></i>
+              <i className='fab fa-github fa-2x mr-4'></i>
             </a>
             <a
               href='https://twitter.com/cristian_jova13'
@@ -20,7 +20,7 @@ const Footer = () => {
               rel='noopener noreferrer'
               className='text-primary'
             >
-              <i className='fab fa-twitter fa-2x mr-2'></i>
+              <i className='fab fa-twitter fa-2x mr-4'></i>
             </a>
             <a
               href='https://www.linkedin.com/in/cristian-jovanovich/'
