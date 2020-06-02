@@ -10,10 +10,10 @@ const InfoSingular = ({ match, history }) => {
 
   useEffect(() => {
     let isSubscribed = true;
-    getInfo(match.params.artist_name).then((res) =>
+    getInfo(match.params.artist_name).then(res =>
       isSubscribed ? setInfo(res) : null
     );
-
+    window.scrollTo(0, 0);
     return () => (isSubscribed = false);
     //eslint-disable-next-line
   }, []);

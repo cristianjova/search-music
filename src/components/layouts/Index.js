@@ -13,6 +13,7 @@ const Index = () => {
     if (track_list.length === 0) {
       getTopTen(top);
     }
+    window.scrollTo(0, 0);
     // eslint-disable-next-line
   }, [top]);
 

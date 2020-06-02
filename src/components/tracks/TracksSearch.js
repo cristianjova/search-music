@@ -13,8 +13,9 @@ const Tracks = ({ tracks }) => {
   const { search, loading } = tracksContext;
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [tracks]);
+    setCurrentPage(currentPage);
+    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+  }, [tracks, currentPage]);
 
   if (loading) return <Spinner />;
 
@@ -24,7 +25,7 @@ const Tracks = ({ tracks }) => {
   const currentPosts = tracks.slice(indexOfFirstPost, indexOfLastPost);
 
   // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = pageNumber => setCurrentPage(pageNumber);
 
   return (
     <>
@@ -41,9 +42,7 @@ const Tracks = ({ tracks }) => {
       ) : (
         <div className='row'>
           {currentPosts !== undefined &&
-            currentPosts.map((item) => (
-              <TrackItem key={item.id} track={item} />
-            ))}
+            currentPosts.map(item => <TrackItem key={item.id} track={item} />)}
         </div>
       )}
       {tracks.length > 10 && (

@@ -16,6 +16,7 @@ const TrackLyrics = ({ match }) => {
   useEffect(() => {
     getTrack(match.params.id, match.params.artist, match.params.track);
     getVideo(match.params.track, match.params.artist);
+    window.scrollTo(0, 0);
     // eslint-disable-next-line
   }, [match.params.id, match.params.artist, match.params.track]);
 
