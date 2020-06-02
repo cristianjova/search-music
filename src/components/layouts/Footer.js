@@ -33,7 +33,7 @@ const Footer = () => {
           </div>
           <div className='col-12 mt-2'>
             <span className='mb-2 font-weight-bold text-primary'>
-              Cristian Jovanovich - &copy; 2020
+              Cristian Jovanovich | &copy; {new Date().getFullYear()}
             </span>
           </div>
         </div>
