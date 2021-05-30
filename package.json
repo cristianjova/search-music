@@ -18,6 +18,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "proxy": "https://api.deezer.com",
   "browserslist": {
     "production": [
       ">0.2%",

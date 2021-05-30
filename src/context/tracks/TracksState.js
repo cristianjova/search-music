@@ -54,7 +54,7 @@ const TracksState = (props) => {
 
     if (top === 'Arg') {
       const resDeezerArg = await axios.get(
-        'https://cors-anywhere.herokuapp.com/https://api.deezer.com/playlist/1279119721'
+        '/playlist/1279119721'
       );
       resDeezerArg.data.tracks.data.slice(0, 10).forEach((item, index) => {
         data.push({
@@ -64,7 +64,7 @@ const TracksState = (props) => {
       });
     } else {
       const resDeezer = await axios.get(
-        'https://cors-anywhere.herokuapp.com/https://api.deezer.com/chart/0/tracks'
+        '/chart/0/tracks'
       );
       data = resDeezer.data.data;
     }
@@ -80,11 +80,11 @@ const TracksState = (props) => {
     setLoading();
 
     const resDeezer = await axios.get(
-      `https://cors-anywhere.herokuapp.com/https://api.deezer.com/track/${id}`
+      `/track/${id}`
     );
 
     const topTenArtist = await axios.get(
-      `https://cors-anywhere.herokuapp.com/https://api.deezer.com/artist/${resDeezer.data.artist.id}/top&index=0&limit=10&output=json`
+      `/artist/${resDeezer.data.artist.id}/top&index=0&limit=10&output=json`
     );
 
     // Get lyrics from Vagalume
@@ -184,13 +184,13 @@ const TracksState = (props) => {
     if (song === '') {
       // Refresh top 10 deezer
       res = await axios.get(
-        `https://cors-anywhere.herokuapp.com/https://api.deezer.com/chart/0/tracks`
+        `/chart/0/tracks`
       );
       data = res.data.data;
     } else {
       // Search lyrics deezer
       res = await axios.get(
-        `https://cors-anywhere.herokuapp.com/https://api.deezer.com/search/track/?q=${song}&index=0&limit=100&output=json`
+        `/search/track/?q=${song}&index=0&limit=100&output=json`
       );
       data = res.data.data;
     }
