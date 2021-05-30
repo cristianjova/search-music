@@ -12,21 +12,17 @@ import {
   SET_TOP_TEN,
 } from '../types';
 
-// let musicApiKey;
 let youtubeApiKey;
-// let lastFm;
+let deezerUrl = '';
 
 if (process.env.NODE_ENV !== 'production') {
-  // musicApiKey = process.env.REACT_APP_MM_KEY;
   youtubeApiKey = process.env.REACT_APP_YOU_API;
-  // lastFm = process.env.REACT_APP_LASTFM_KEY;
 } else {
-  // musicApiKey = process.env.REACT_APP_MM_KEY;
+  deezerUrl = 'https://api.deezer.com';
   youtubeApiKey = process.env.REACT_APP_YOU_API;
-  // lastFm = process.env.REACT_APP_LASTFM_KEY;
 }
 
-const TracksState = (props) => {
+const TracksState = props => {
   const initialState = {
     track_list: [],
     search: '',
@@ -39,7 +35,7 @@ const TracksState = (props) => {
   const [state, dispatch] = useReducer(TracksReducer, initialState);
 
   // Set top 10 - ARG or GLO
-  const setTopTen = (top) => {
+  const setTopTen = top => {
     dispatch({
       payload: top,
       type: SET_TOP_TEN,
@@ -47,15 +43,13 @@ const TracksState = (props) => {
   };
 
   // Get topten music from MM
-  const getTopTen = async (top) => {
+  const getTopTen = async top => {
     setLoading();
 
     let data = [];
 
     if (top === 'Arg') {
-      const resDeezerArg = await axios.get(
-        '/playlist/1279119721'
-      );
+      const resDeezerArg = await axios.get(`${deezerUrl}/playlist/1279119721`);
       resDeezerArg.data.tracks.data.slice(0, 10).forEach((item, index) => {
         data.push({
           ...item,
@@ -63,9 +57,7 @@ const TracksState = (props) => {
         });
       });
     } else {
-      const resDeezer = await axios.get(
-        '/chart/0/tracks'
-      );
+      const resDeezer = await axios.get(`${deezerUrl}/chart/0/tracks`);
       data = resDeezer.data.data;
     }
 
@@ -79,12 +71,10 @@ const TracksState = (props) => {
   const getTrack = async (id, artist, track) => {
     setLoading();
 
-    const resDeezer = await axios.get(
-      `/track/${id}`
-    );
+    const resDeezer = await axios.get(`${deezerUrl}/track/${id}`);
 
     const topTenArtist = await axios.get(
-      `/artist/${resDeezer.data.artist.id}/top&index=0&limit=10&output=json`
+      `${deezerUrl}/artist/${resDeezer.data.artist.id}/top&index=0&limit=10&output=json`
     );
 
     // Get lyrics from Vagalume
@@ -163,7 +153,7 @@ const TracksState = (props) => {
   };
 
   // Get artist data
-  const getInfo = async (artist) => {
+  const getInfo = async artist => {
     const res = await axios(
       `https://www.theaudiodb.com/api/v1/json/1/search.php?s=${
         artist !== undefined ? artist.split('feat')[0] : artist
@@ -175,7 +165,7 @@ const TracksState = (props) => {
   };
 
   // Search Lyrics by song or artist
-  const findTracks = async (song) => {
+  const findTracks = async song => {
     setLoading();
 
     let res;
@@ -183,14 +173,12 @@ const TracksState = (props) => {
     // If refresh top 10 or search
     if (song === '') {
       // Refresh top 10 deezer
-      res = await axios.get(
-        `/chart/0/tracks`
-      );
+      res = await axios.get(`${deezerUrl}/chart/0/tracks`);
       data = res.data.data;
     } else {
       // Search lyrics deezer
       res = await axios.get(
-        `/search/track/?q=${song}&index=0&limit=100&output=json`
+        `${deezerUrl}/search/track/?q=${song}&index=0&limit=100&output=json`
       );
       data = res.data.data;
     }
