@@ -49,7 +49,9 @@ const TracksState = props => {
     let data = [];
 
     if (top === 'Arg') {
-      const resDeezerArg = await axios.get(`${deezerUrl}/playlist/1279119721`);
+      const resDeezerArg = await axios.get(
+        'https://server-cors-lirycs.vercel.app/api/arg'
+      );
       resDeezerArg.data.tracks.data.slice(0, 10).forEach((item, index) => {
         data.push({
           ...item,
@@ -57,7 +59,9 @@ const TracksState = props => {
         });
       });
     } else {
-      const resDeezer = await axios.get(`${deezerUrl}/chart/0/tracks`);
+      const resDeezer = await axios.get(
+        'https://server-cors-lirycs.vercel.app/api/world'
+      );
       data = resDeezer.data.data;
     }
 
@@ -71,10 +75,12 @@ const TracksState = props => {
   const getTrack = async (id, artist, track) => {
     setLoading();
 
-    const resDeezer = await axios.get(`${deezerUrl}/track/${id}`);
+    const resDeezer = await axios.get(
+      `https://server-cors-lirycs.vercel.app/api/track/${id}`
+    );
 
     const topTenArtist = await axios.get(
-      `${deezerUrl}/artist/${resDeezer.data.artist.id}/top&index=0&limit=10&output=json`
+      `https://server-cors-lirycs.vercel.app/api/topartist/${resDeezer.data.artist.id}`
     );
 
     // Get lyrics from Vagalume
@@ -173,12 +179,12 @@ const TracksState = props => {
     // If refresh top 10 or search
     if (song === '') {
       // Refresh top 10 deezer
-      res = await axios.get(`${deezerUrl}/chart/0/tracks`);
+      res = await axios.get('https://server-cors-lirycs.vercel.app/api/world');
       data = res.data.data;
     } else {
       // Search lyrics deezer
       res = await axios.get(
-        `${deezerUrl}/search/track/?q=${song}&index=0&limit=100&output=json`
+        `https://server-cors-lirycs.vercel.app/api/song/${song}`
       );
       data = res.data.data;
     }
