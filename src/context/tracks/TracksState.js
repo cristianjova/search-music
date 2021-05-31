@@ -13,12 +13,10 @@ import {
 } from '../types';
 
 let youtubeApiKey;
-let deezerUrl = '';
 
 if (process.env.NODE_ENV !== 'production') {
   youtubeApiKey = process.env.REACT_APP_YOU_API;
 } else {
-  deezerUrl = 'https://api.deezer.com';
   youtubeApiKey = process.env.REACT_APP_YOU_API;
 }
 
